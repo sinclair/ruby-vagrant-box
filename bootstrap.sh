@@ -3,12 +3,12 @@
 function install {
   echo installing $1
   shift
-  apt-get -y install "$@" >/dev/null 2>&1
+  sudo apt-get -y install "$@" >/dev/null 2>&1
 }
 
-echo Bootstrap.sh
+echo Bootstrap.sh as: `whoami`
 echo updating package information ...
-apt-get -y update > /dev/null 2>&1
+sudo apt-get -y update > /dev/null 2>&1
 
 install 'Development Tools' build-essential 
 
@@ -19,23 +19,24 @@ sudo -u postgres createuser --superuser vagrant
 sudo -u postgres createdb -O vagrant development
 sudo -u postgres createdb -O vagrant test
 
-update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
+sudo update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
 
 echo installing rbenv
-git clone git://github.com/sstephenson/rbenv.git /home/vagrant/.rbenv
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/vagrant/.bashrc
-echo 'eval "$(rbenv init -)"' >> /home/vagrant/.bashrc
-exec $SHELL
+git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 
 echo installing ruby-build
-git clone git://github.com/sstephenson/ruby-build.git /home/vagrant/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bashrc
-exec $SHELL
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 
-rbenv install 2.2.2
-rbenv global 2.2.2
-ruby -v
+~/.rbenv/bin/rbenv install 2.2.2
+~/.rbenv/bin/rbenv global 2.2.2
 
-echo "That's all folks!"
+gem install bundler
+
+echo "\nThat's all folks!"
 
 
