@@ -35,8 +35,6 @@ source ~/.bashrc
 ~/.rbenv/bin/rbenv install 2.2.2
 ~/.rbenv/bin/rbenv global 2.2.2
 
-gem install bundler
-
-echo "\nThat's all folks!"
+echo "That's all folks!"
 
 
